@@ -153,7 +153,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 //if let viewController = navigationController.vi .rootViewController as ViewController {
                     //viewController.setZone(zone!)
                     viewController.printLocation(locations.last!)
-                //        showSimpleAlertWithTitle(nil, message: message, viewController: viewController)
+                    //showSimpleAlertWithTitle(nil, message: message, viewController: viewController)
                 //}
             }
         //

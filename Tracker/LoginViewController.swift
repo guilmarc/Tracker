@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import Foundation
 
 protocol LoginViewControllerDelegate : NSObjectProtocol {
     /*
@@ -46,16 +47,19 @@ class LogInViewController: UIViewController {
     
     
     @IBAction func HandleLoginButtonAction(sender: AnyObject) {
-
+        
+        guard self.barrackUserName.text != "" && self.barrackPassword.text != "" && self.firefighterNumber.text != "" && self.firefighterPIN.text != "" else {
+            showSimpleAlertWithTitle(nil, message: "Données manquantes", viewController: self)
+            return
+        }
         
         postLoginRequest()
     }
     
-    func loginWasSuccessful()
+    func loginWasSuccessfulWithKey(key: String)
     {
-        
         //Saving cache data
-        LoginManager.user = User(barrackUserName: self.barrackUserName.text!, barrackPassword: self.barrackPassword.text!, firefighterNumber: self.firefighterNumber.text!, barrackLongitude: 46.3543992882526, barrackLatitude: -72.632473214137)
+        LoginManager.user = User(barrackUserName: self.barrackUserName.text!, barrackPassword: self.barrackPassword.text!, firefighterKey: key, firefighterNumber: self.firefighterNumber.text!, barrackLongitude: 46.3543992882526, barrackLatitude: -72.632473214137)
         
         LoginManager.authenticated = true
         
@@ -75,7 +79,7 @@ class LogInViewController: UIViewController {
     //in_NoPompier = Le numéro du pompier (valeur numérique (int))
     //in_NipPompier = Le NIP du pompier (valeur numérique (int))
     func buildRequest() -> NSMutableURLRequest {
-        let url:NSURL = NSURL(string: "http://www.personalconsultboard.com/tmp_test/auth_check.php")!
+        let url:NSURL = NSURL(string: "http://www.vinitysoft.com/tmp_test/auth_check_post.php")!
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
         request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringCacheData
@@ -83,8 +87,9 @@ class LogInViewController: UIViewController {
         
         //let paramString = "in_Cas_UserName=stcesaire&in_Cas_Password=085085&in_NoPompier=122&in_NipPompier=0"
         
-        //let paramString = "in_Cas_UserName=\(self.barrackUserName.text!)&in_Cas_Password=\(self.barrackPassword.text!)&in_NoPompier=\(self.firefighterNumber.text!)&in_NipPompier=\(self.firefighterPIN.text!)"
-        //request.HTTPBody = paramString.dataUsingEncoding(NSUTF8StringEncoding)
+        let paramString = "in_Cas_UserName=\(self.barrackUserName.text!)&in_Cas_Password=\(self.barrackPassword.text!)&in_NoPompier=\(self.firefighterNumber.text!)&in_NipPompier=\(self.firefighterPIN.text!)"
+        
+        request.HTTPBody = paramString.dataUsingEncoding(NSUTF8StringEncoding)
         
         //print("\(request)\n\n\n")
         
@@ -101,15 +106,21 @@ class LogInViewController: UIViewController {
             guard let _:NSData = data, let _:NSURLResponse = response  where error == nil else {
                 print("error")
                 //TODO: Remove this when WebService will Work
-                self.loginWasSuccessful()
                 return
             }
-            
-            let dataString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-            print(dataString)
-            
-            self.loginWasSuccessful()
-            
+
+            if let dataString = String(data: data!, encoding: NSUTF8StringEncoding) {
+                if dataString == "0" {
+                    print("Invalid login !!!!!!!!!")
+                    dispatch_async(dispatch_get_main_queue(),{
+                        showSimpleAlertWithTitle(nil, message: "Connection refusée", viewController: self)
+                    })
+                    
+                } else {
+                    print(dataString)
+                    self.loginWasSuccessfulWithKey(dataString)
+                }
+            }
         }
         
         task.resume()

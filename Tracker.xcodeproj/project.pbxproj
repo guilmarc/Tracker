@@ -12,6 +12,7 @@
 		B5B186D81C386E2F005A12C0 /* PCBConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B186D71C386E2F005A12C0 /* PCBConnection.swift */; };
 		B5B186E01C3F3C63005A12C0 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B186DF1C3F3C63005A12C0 /* LoginManager.swift */; };
 		B5B186E41C3FC8F4005A12C0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B186DD1C3F3996005A12C0 /* LoginViewController.swift */; };
+		B5B186E81C400069005A12C0 /* ZoneManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B186E71C400069005A12C0 /* ZoneManager.swift */; };
 		B5FDBF321C335584006F7F56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FDBF311C335584006F7F56 /* AppDelegate.swift */; };
 		B5FDBF341C335584006F7F56 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FDBF331C335584006F7F56 /* ViewController.swift */; };
 		B5FDBF391C335584006F7F56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5FDBF381C335584006F7F56 /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 		B5B186D71C386E2F005A12C0 /* PCBConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PCBConnection.swift; path = ../PCBConnection.swift; sourceTree = "<group>"; };
 		B5B186DD1C3F3996005A12C0 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B5B186DF1C3F3C63005A12C0 /* LoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
+		B5B186E71C400069005A12C0 /* ZoneManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoneManager.swift; sourceTree = "<group>"; };
 		B5FDBF2E1C335584006F7F56 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5FDBF311C335584006F7F56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5FDBF331C335584006F7F56 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 				B5FDBF3A1C335584006F7F56 /* LaunchScreen.storyboard */,
 				B5FDBF3D1C335584006F7F56 /* Info.plist */,
 				B5FDBF451C345164006F7F56 /* LocationTester.gpx */,
+				B5B186E71C400069005A12C0 /* ZoneManager.swift */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
@@ -164,6 +167,7 @@
 				B5B186E41C3FC8F4005A12C0 /* LoginViewController.swift in Sources */,
 				B5FDBF341C335584006F7F56 /* ViewController.swift in Sources */,
 				B5B186E01C3F3C63005A12C0 /* LoginManager.swift in Sources */,
+				B5B186E81C400069005A12C0 /* ZoneManager.swift in Sources */,
 				B5B186D61C36FDB9005A12C0 /* LocationTracker.swift in Sources */,
 				B5FDBF321C335584006F7F56 /* AppDelegate.swift in Sources */,
 				B5FDBF441C335A74006F7F56 /* Utility.swift in Sources */,

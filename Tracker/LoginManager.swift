@@ -12,6 +12,7 @@ import CoreLocation
 struct User {
     var barrackUserName: String
     var barrackPassword: String
+    var firefighterKey: String
     var firefighterNumber: String
     var barrackLongitude: Double
     var barrackLatitude: Double
