@@ -51,16 +51,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         //locationManager.requestLocation()
     }
     
-    func setZone(zone : String){
-        //guard zone != self.zone else {
-        //    return
-        //}
-        switch zone {
-            case "Zone1": self.zone = Zone.Zone1
-            case "Zone2": self.zone = Zone.Zone2
-            default: self.zone = Zone.Unknown
-        }
+    func setZone(zone : Zone){
         
+        self.zone = zone
         self.view.backgroundColor = UIColor(netHex: self.zone.rawValue)
         
     }

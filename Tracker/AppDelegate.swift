@@ -10,11 +10,12 @@ import UIKit
 import CoreLocation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate,  LoginViewControllerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate, LoginViewControllerDelegate, ZoneTrackerDelegate {
 
     var window: UIWindow?
     let locationManager = CLLocationManager()
     let connection = PCBConnection()
+    let zoneTracker = ZoneTracker()
     
     var zone : Zone = Zone.Unknown
     
@@ -23,11 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound , .Alert , .Badge], categories: nil))
         UIApplication.sharedApplication().cancelAllLocalNotifications()
         
-        locationManager.delegate = self                // Add this line
-        locationManager.requestAlwaysAuthorization()   // And this one
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.distanceFilter = 10
-        locationManager.allowsBackgroundLocationUpdates = true;
+        zoneTracker.delegate = self
+        
+        
+        //locationManager.delegate = self                // Add this line
+        //locationManager.requestAlwaysAuthorization()   // And this one
+        //locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        //locationManager.distanceFilter = 10
+        //locationManager.allowsBackgroundLocationUpdates = true;
         
         
         if (!LoginManager.authenticated) {
@@ -41,8 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func LoginViewController(viewController: UIViewController, didLoginWithUser user: User) {
         
         //locationManager.startUpdatingLocation()
-        LocationTracker.sharedInstance.startMonitoringRegionsForUser(user)
-        
+        //LocationTracker.sharedInstance.startMonitoringRegionsForUser(user)
+        zoneTracker.startTracking()
     }
     
     func showLoginScreen(){
@@ -61,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func logout(){
         // Remove data from singleton (where all my app data is stored)
         //[AppData clearData];
-        locationManager.stopUpdatingLocation()
+        zoneTracker.stopTracking()
         
         self.showLoginScreen()
         
@@ -95,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-    
+    /*
     func handleRegionEvent(region: CLRegion!, mode: CLRegionMode) {
         let message = (mode == CLRegionMode.Enter ? "Vous venez d'entrer dans la zone::\(region.identifier)" : "Vous venez de quitter la zone::\(region.identifier)")
         
@@ -164,13 +168,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             notification.soundName = "Default";
             UIApplication.sharedApplication().presentLocalNotificationNow(notification)
         }
-        
-
-        
-        
+    
     }
 
-
+*/
+    
+    func zoneTracker(zoneTracker: ZoneTracker, didMoveToZone zone: Zone){
+        print(zone)
+        
+        let message = "Entering Zone \(zone)"
+        
+        // if application is active
+        if UIApplication.sharedApplication().applicationState == .Active {
+            if let viewController = (window?.rootViewController as? UINavigationController)?.viewControllers.first as? ViewController  {
+                viewController.setZone(zone)
+            }
+            //
+        } else {
+            // Otherwise present a local notification
+            let notification = UILocalNotification()
+            notification.alertBody = message
+            notification.soundName = "Default";
+            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+        }
+    }
+    
 }
 
 
