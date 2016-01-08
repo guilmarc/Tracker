@@ -10,8 +10,8 @@
 		B5B186D41C34A8EC005A12C0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5B186D21C34A8EC005A12C0 /* Main.storyboard */; };
 		B5B186D61C36FDB9005A12C0 /* LocationTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B186D51C36FDB9005A12C0 /* LocationTracker.swift */; };
 		B5B186D81C386E2F005A12C0 /* PCBConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B186D71C386E2F005A12C0 /* PCBConnection.swift */; };
-		B5B186DE1C3F3996005A12C0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B186DD1C3F3996005A12C0 /* LoginViewController.swift */; };
 		B5B186E01C3F3C63005A12C0 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B186DF1C3F3C63005A12C0 /* LoginManager.swift */; };
+		B5B186E41C3FC8F4005A12C0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B186DD1C3F3996005A12C0 /* LoginViewController.swift */; };
 		B5FDBF321C335584006F7F56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FDBF311C335584006F7F56 /* AppDelegate.swift */; };
 		B5FDBF341C335584006F7F56 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FDBF331C335584006F7F56 /* ViewController.swift */; };
 		B5FDBF391C335584006F7F56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5FDBF381C335584006F7F56 /* Assets.xcassets */; };
@@ -161,7 +161,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5B186DE1C3F3996005A12C0 /* LoginViewController.swift in Sources */,
+				B5B186E41C3FC8F4005A12C0 /* LoginViewController.swift in Sources */,
 				B5FDBF341C335584006F7F56 /* ViewController.swift in Sources */,
 				B5B186E01C3F3C63005A12C0 /* LoginManager.swift in Sources */,
 				B5B186D61C36FDB9005A12C0 /* LocationTracker.swift in Sources */,

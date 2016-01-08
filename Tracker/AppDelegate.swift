@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate,  LoginViewControllerDelegate {
 
     var window: UIWindow?
     let locationManager = CLLocationManager()
@@ -23,47 +23,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound , .Alert , .Badge], categories: nil))
         UIApplication.sharedApplication().cancelAllLocalNotifications()
         
-        
-        if (LoginManager.user == nil) {
-            
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginActionFinished", name: "LoginSuccessful", object: nil)
-
-            self.showLoginScreen()
-        }
-        
-        return true
-    }
-    
-    func initLocationManager(){
         locationManager.delegate = self                // Add this line
         locationManager.requestAlwaysAuthorization()   // And this one
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = 10
         locationManager.allowsBackgroundLocationUpdates = true;
-        locationManager.startUpdatingLocation()
+        
+        
+        if (!LoginManager.authenticated) {
+            self.showLoginScreen()
+        }
+        
+        return true
+    }
+
+    
+    func LoginViewController(viewController: UIViewController, didLoginWithUser user: User) {
+        
+        //locationManager.startUpdatingLocation()
+        LocationTracker.sharedInstance.startMonitoringRegionsForUser(user)
+        
     }
     
     func showLoginScreen(){
         // Get login screen from storyboard and present it
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let loginViewController = storyboard.instantiateViewControllerWithIdentifier("Login") //as! LoginViewController
+        let loginViewController = storyboard.instantiateViewControllerWithIdentifier("Login") as! LogInViewController
+        loginViewController.delegate = self
         
         self.window?.makeKeyAndVisible()
         self.window?.rootViewController?.presentViewController(loginViewController, animated: true, completion: nil)
 
     }
-    
-    func loginActionFinished(){
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let rootViewController = storyboard.instantiateInitialViewController()!
-        
-        self.window?.makeKeyAndVisible()
-        self.window?.rootViewController?.presentViewController(rootViewController, animated: true, completion: nil)
-        
-        initLocationManager()
-    }
+
     
     func logout(){
         // Remove data from singleton (where all my app data is stored)
@@ -104,12 +97,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     func handleRegionEvent(region: CLRegion!, mode: CLRegionMode) {
-        let message = (mode == CLRegionMode.Enter ? "Vous venez d'entrer dans la zone" : "Vous venez de quitter la zone")
+        let message = (mode == CLRegionMode.Enter ? "Vous venez d'entrer dans la zone::\(region.identifier)" : "Vous venez de quitter la zone::\(region.identifier)")
         
         // Show an alert if application is active
         if UIApplication.sharedApplication().applicationState == .Active {
-            if let viewController = window?.rootViewController {
-                showSimpleAlertWithTitle(nil, message: message, viewController: viewController)
+            
+            if let viewController = (window?.rootViewController as? UINavigationController)?.viewControllers.first as? ViewController  {
+                //if let viewController = navigationController.vi .rootViewController as ViewController {
+                if (mode == CLRegionMode.Enter) {
+                    viewController.setZone(region.identifier)
+                } else {
+                    viewController.setZone("Exit")
+                }
             }
             
         } else {
@@ -123,14 +122,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
         if region is CLCircularRegion {
-            print("didEnterRegion")
+            print("didEnterRegion::\(region.identifier)")
             handleRegionEvent(region, mode: CLRegionMode.Enter)
         }
     }
     
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
         if region is CLCircularRegion {
-            print("didExitRegion")
+            print("didExitRegion::\(region.identifier)")
             handleRegionEvent(region, mode: CLRegionMode.Exit)
         }
     }
@@ -152,7 +151,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         if UIApplication.sharedApplication().applicationState == .Active {
             if let viewController = (window?.rootViewController as? UINavigationController)?.viewControllers.first as? ViewController  {
                 //if let viewController = navigationController.vi .rootViewController as ViewController {
-                    viewController.setZone(zone!)
+                    //viewController.setZone(zone!)
                     viewController.printLocation(locations.last!)
                 //        showSimpleAlertWithTitle(nil, message: message, viewController: viewController)
                 //}

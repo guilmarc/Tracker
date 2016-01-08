@@ -7,21 +7,25 @@
 //
 
 import Foundation
+import CoreLocation
 
 struct User {
     var barrackUserName: String
     var barrackPassword: String
     var firefighterNumber: String
+    var barrackLongitude: Double
+    var barrackLatitude: Double
 }
 
 class LoginManager {
     
     static var user : User?
-    private var authenticated = false
-    private var loginViewController: LoginViewController?
+    static var authenticated = false
+    
+    private var loginViewController: LogInViewController?
     
     
-    func loginWithUsername(){
+    func loginWithUsername(username: String, password: String, number: String, PIN : String){
         
     }
     
