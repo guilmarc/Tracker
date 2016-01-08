@@ -7,16 +7,78 @@
 //
 
 import UIKit
+import CoreLocation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
 
     var window: UIWindow?
-
-
+    let locationManager = CLLocationManager()
+    let connection = PCBConnection()
+    
+    var zone : Zone = Zone.Unknown
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound , .Alert , .Badge], categories: nil))
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        
+        
+        if (LoginManager.user == nil) {
+            
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginActionFinished", name: "LoginSuccessful", object: nil)
+
+            self.showLoginScreen()
+        }
+        
         return true
+    }
+    
+    func initLocationManager(){
+        locationManager.delegate = self                // Add this line
+        locationManager.requestAlwaysAuthorization()   // And this one
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.distanceFilter = 10
+        locationManager.allowsBackgroundLocationUpdates = true;
+        locationManager.startUpdatingLocation()
+    }
+    
+    func showLoginScreen(){
+        // Get login screen from storyboard and present it
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let loginViewController = storyboard.instantiateViewControllerWithIdentifier("Login") //as! LoginViewController
+        
+        self.window?.makeKeyAndVisible()
+        self.window?.rootViewController?.presentViewController(loginViewController, animated: true, completion: nil)
+
+    }
+    
+    func loginActionFinished(){
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let rootViewController = storyboard.instantiateInitialViewController()!
+        
+        self.window?.makeKeyAndVisible()
+        self.window?.rootViewController?.presentViewController(rootViewController, animated: true, completion: nil)
+        
+        initLocationManager()
+    }
+    
+    func logout(){
+        // Remove data from singleton (where all my app data is stored)
+        //[AppData clearData];
+        locationManager.stopUpdatingLocation()
+        
+        self.showLoginScreen()
+        
+        // Reset view controller (this will quickly clear all the views)
+        //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        //MainTabControllerViewController *viewController = (MainTabControllerViewController *)[storyboard instantiateViewControllerWithIdentifier:@"mainView"];
+        //[self.window setRootViewController:viewController];
+        
+        // Show login screen
+        //[self showLoginScreen:NO];
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -40,7 +102,77 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    func handleRegionEvent(region: CLRegion!, mode: CLRegionMode) {
+        let message = (mode == CLRegionMode.Enter ? "Vous venez d'entrer dans la zone" : "Vous venez de quitter la zone")
+        
+        // Show an alert if application is active
+        if UIApplication.sharedApplication().applicationState == .Active {
+            if let viewController = window?.rootViewController {
+                showSimpleAlertWithTitle(nil, message: message, viewController: viewController)
+            }
+            
+        } else {
+            // Otherwise present a local notification
+            let notification = UILocalNotification()
+            notification.alertBody = message
+            notification.soundName = "Default";
+            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        if region is CLCircularRegion {
+            print("didEnterRegion")
+            handleRegionEvent(region, mode: CLRegionMode.Enter)
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+        if region is CLCircularRegion {
+            print("didExitRegion")
+            handleRegionEvent(region, mode: CLRegionMode.Exit)
+        }
+    }
+        
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(locations)
+        
+        let message = "New location (\(locations.count)) \(locations[0].coordinate)"
+        
+        var zone: Zone?
+        zone = connection.requestZoneFromLocation(locations.last!)
+        
+        //Exit if we are in the same zone
+        //guard self.zone == zone else {
+        //    return
+        //}
+      
+        // if application is active
+        if UIApplication.sharedApplication().applicationState == .Active {
+            if let viewController = (window?.rootViewController as? UINavigationController)?.viewControllers.first as? ViewController  {
+                //if let viewController = navigationController.vi .rootViewController as ViewController {
+                    viewController.setZone(zone!)
+                    viewController.printLocation(locations.last!)
+                //        showSimpleAlertWithTitle(nil, message: message, viewController: viewController)
+                //}
+            }
+        //
+        } else {
+            // Otherwise present a local notification
+            let notification = UILocalNotification()
+            notification.alertBody = message
+            notification.soundName = "Default";
+            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+        }
+        
+
+        
+        
+    }
 
 
 }
+
+
 
