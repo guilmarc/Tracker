@@ -191,6 +191,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             notification.soundName = "Default";
             UIApplication.sharedApplication().presentLocalNotificationNow(notification)
         }
+        
+        connection.postRequestForZone(zone, User: LoginManager.user!)
     }
     
 }

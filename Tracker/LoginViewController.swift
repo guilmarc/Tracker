@@ -69,9 +69,6 @@ class LogInViewController: UIViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    
-    
-    //http://www.personalconsultboard.com/tmp_test/auth_form.html
     //http://www.personalconsultboard.com/tmp_test/auth_check.php
     //Les valeurs que tu devras poster sont :
     //in_Cas_UserName = Le user name de la caserne

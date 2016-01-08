@@ -1,5 +1,5 @@
 //
-//  ZoneManager.swift
+//  ZoneTracker.swift
 //  Tracker
 //
 //  Created by Marco Guilmette on 2016-01-08.
@@ -81,5 +81,9 @@ class ZoneTracker: NSObject, CLLocationManagerDelegate {
         }
         
     }
+    
+    
+        
+    
     
 }
