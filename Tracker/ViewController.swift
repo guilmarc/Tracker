@@ -24,6 +24,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var zone: Zone = Zone.Unknown
     
     //var available: Bool = true
+    @IBOutlet var LocationImageView: UIImageView!
     
     @IBOutlet var CoreLocationTextView: UITextView!
     
@@ -46,14 +47,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.zone = zone
         
         
-        switch self.zone {
+        /*switch self.zone {
             case .Zone1 : self.view.backgroundColor = UIColor(netHex: 0x00FF00)
             case .Zone2: self.view.backgroundColor = UIColor(netHex: 0x0000FF)
             case .Zone0: self.view.backgroundColor = UIColor(netHex: 0xFF0000)
             case .Unknown: self.view.backgroundColor = UIColor(netHex: 0xFFFFF)
         }
         
+        switch self.zone {
+        case .Zone1 : self.AvailableSegmentedControl.tintColor = UIColor(netHex: 0x00FF00)
+        case .Zone2: self.AvailableSegmentedControl.tintColor = UIColor(netHex: 0x0000FF)
+        case .Zone0: self.AvailableSegmentedControl.tintColor = UIColor(netHex: 0xFF0000)
+        case .Unknown: self.AvailableSegmentedControl.tintColor = UIColor(netHex: 0xFFFFF)
+        }*/
         
+        switch self.zone {
+            case .Zone1 : self.LocationImageView.image = UIImage(named: "location-green")
+            case .Zone2: self.LocationImageView.image = UIImage(named: "location-blue")
+            case .Zone0: self.LocationImageView.image = UIImage(named: "location-red")
+            case .Unknown: self.LocationImageView.image = UIImage(named: "location-white")
+        }
     }
     
     func printLocation(location: CLLocation){
