@@ -12,10 +12,11 @@ import CoreLocation
 struct User {
     var barrackUserName: String
     var barrackPassword: String
-    var firefighterKey: String
+    var firefighterKey: Int
     var firefighterNumber: String
     var barrackLongitude: Double
     var barrackLatitude: Double
+    //var available: Bool
 }
 
 class LoginManager {

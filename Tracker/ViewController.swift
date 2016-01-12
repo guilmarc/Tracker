@@ -20,48 +20,39 @@ import CoreLocation
 class ViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet var AvailableSegmentedControl: UISegmentedControl!
-    
-    
-    let locationManager = CLLocationManager()
-    let TargetLatitude = 46.3543992882526
-    let TargetLongitude = -72.632473214137
-    var locationTimer: NSTimer?
-    
+
     var zone: Zone = Zone.Unknown
     
-    var available: Bool = true
+    //var available: Bool = true
     
     @IBOutlet var CoreLocationTextView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        //locationManager.stopMonitoringForRegion(regionFrom7514())
-        
-        //locationManager.startMonitoringForRegion(regionFrom7514())
-        
-        //locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.delegate = self
-        //locationManager.distanceFilter = 500
-        //locationManager.allowsBackgroundLocationUpdates = true;
-        //locationManager.startUpdatingLocation()
-        
-        //locationTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("fireLocationTimer"), userInfo: nil, repeats: true)
- 
-        //locationManager.requestLocation()
+        self.navigationController?.navigationBarHidden = true
     }
     
-    func setZone(zone : String){
-        //guard zone != self.zone else {
-        //    return
-        //}
-        switch zone {
-            case "Zone1": self.zone = Zone.Zone1
-            case "Zone2": self.zone = Zone.Zone2
-            default: self.zone = Zone.Unknown
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        //TODO: Force the zone refresh here
+        //let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        //appDelegate.zoneTracker.setOnline()
+    }
+    
+    func setZone(zone : Zone){
+        
+        self.zone = zone
+        
+        
+        switch self.zone {
+            case .Zone1 : self.view.backgroundColor = UIColor(netHex: 0x00FF00)
+            case .Zone2: self.view.backgroundColor = UIColor(netHex: 0x0000FF)
+            case .Zone0: self.view.backgroundColor = UIColor(netHex: 0xFF0000)
+            case .Unknown: self.view.backgroundColor = UIColor(netHex: 0xFFFFF)
         }
         
-        self.view.backgroundColor = UIColor(netHex: self.zone.rawValue)
         
     }
     
@@ -77,35 +68,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         appDelegate.logout()
 
     }
-    
-    /*func fireLocationTimer(){
-        print(locationManager.location)
-        self.CoreLocationTextView.text = self.CoreLocationTextView.text + (locationManager.location?.description)!
-        
-        locationManager.reque
-    }*/
-    
-    
-    /*func regionFrom7514() -> CLCircularRegion {
-        
-        let coordinate : CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 46.3543992882526, longitude: -72.632473214137)
-        
-        let region = CLCircularRegion(center: coordinate, radius: 100, identifier: "Target")
-        // 2
-        region.notifyOnEntry = true
-        region.notifyOnExit = true
-        return region
-    }*/
 
     @IBAction func HandleAvailableSegmentedControlValueChanged(sender: AnyObject) {
-        self.available = (self.AvailableSegmentedControl.selectedSegmentIndex == 0)
-        self.AvailableSegmentedControl.tintColor = self.available ? UIColor.blueColor() : UIColor.redColor()
+        
+        if self.AvailableSegmentedControl.selectedSegmentIndex == 0 {
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            appDelegate.zoneTracker.setOnline()
+        } else {
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            appDelegate.zoneTracker.setOffline()
+        }
+        
     }
-    
-    /*
-    @IBAction func HandleSendActualPositionButtonAction(sender: AnyObject) {
-        self.fireLocationTimer()
-    }*/
     
     
     override func didReceiveMemoryWarning() {
