@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate, LoginViewControllerDelegate, ZoneTrackerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelegate, ZoneTrackerDelegate {
 
     var window: UIWindow?
     let locationManager = CLLocationManager()
@@ -25,14 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         UIApplication.sharedApplication().cancelAllLocalNotifications()
         
         zoneTracker.delegate = self
-        
-        
-        //locationManager.delegate = self                // Add this line
-        //locationManager.requestAlwaysAuthorization()   // And this one
-        //locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        //locationManager.distanceFilter = 10
-        //locationManager.allowsBackgroundLocationUpdates = true;
-        
         
         if (!LoginManager.authenticated) {
             self.showLoginScreen()
@@ -63,19 +55,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     
     func logout(){
-        // Remove data from singleton (where all my app data is stored)
-        //[AppData clearData];
+
         zoneTracker.stopTracking()
-        
         self.showLoginScreen()
-        
-        // Reset view controller (this will quickly clear all the views)
-        //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-        //MainTabControllerViewController *viewController = (MainTabControllerViewController *)[storyboard instantiateViewControllerWithIdentifier:@"mainView"];
-        //[self.window setRootViewController:viewController];
-        
-        // Show login screen
-        //[self showLoginScreen:NO];
+
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -94,98 +77,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        //locationManager.stopUpdatingLocation()
+        //locationManager.startUpdatingLocation()
     }
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-    /*
-    func handleRegionEvent(region: CLRegion!, mode: CLRegionMode) {
-        let message = (mode == CLRegionMode.Enter ? "Vous venez d'entrer dans la zone::\(region.identifier)" : "Vous venez de quitter la zone::\(region.identifier)")
-        
-        // Show an alert if application is active
-        if UIApplication.sharedApplication().applicationState == .Active {
-            
-            if let viewController = (window?.rootViewController as? UINavigationController)?.viewControllers.first as? ViewController  {
-                //if let viewController = navigationController.vi .rootViewController as ViewController {
-                if (mode == CLRegionMode.Enter) {
-                    viewController.setZone(region.identifier)
-                } else {
-                    viewController.setZone("Exit")
-                }
-            }
-            
-        } else {
-            // Otherwise present a local notification
-            let notification = UILocalNotification()
-            notification.alertBody = message
-            notification.soundName = "Default";
-            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
-        }
-    }
     
-    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        if region is CLCircularRegion {
-            print("didEnterRegion::\(region.identifier)")
-            handleRegionEvent(region, mode: CLRegionMode.Enter)
-        }
-    }
-    
-    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
-        if region is CLCircularRegion {
-            print("didExitRegion::\(region.identifier)")
-            handleRegionEvent(region, mode: CLRegionMode.Exit)
-        }
-    }
-        
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(locations)
-        
-        let message = "New location (\(locations.count)) \(locations[0].coordinate)"
-        
-        var zone: Zone?
-        zone = connection.requestZoneFromLocation(locations.last!)
-        
-        //Exit if we are in the same zone
-        //guard self.zone == zone else {
-        //    return
-        //}
-      
-        // if application is active
-        if UIApplication.sharedApplication().applicationState == .Active {
-            if let viewController = (window?.rootViewController as? UINavigationController)?.viewControllers.first as? ViewController  {
-                //if let viewController = navigationController.vi .rootViewController as ViewController {
-                    //viewController.setZone(zone!)
-                    viewController.printLocation(locations.last!)
-                    //showSimpleAlertWithTitle(nil, message: message, viewController: viewController)
-                //}
-            }
-        //
-        } else {
-            // Otherwise present a local notification
-            let notification = UILocalNotification()
-            notification.alertBody = message
-            notification.soundName = "Default";
-            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
-        }
-    
-    }
-
-*/
     
     func zoneTracker(zoneTracker: ZoneTracker, didMoveToZone zone: Zone){
         print(zone)
         
-        let message = "Entering Zone \(zone)"
+        let message = "Vous êtes maintenant dans l'état \(zone.description)"
+        
+        //Updating the viewController color
+        if let viewController = (window?.rootViewController as? UINavigationController)?.viewControllers.first as? ViewController  {
+            viewController.setZone(zone)
+        }
         
         // if application is active
-        if UIApplication.sharedApplication().applicationState == .Active {
-            if let viewController = (window?.rootViewController as? UINavigationController)?.viewControllers.first as? ViewController  {
-                viewController.setZone(zone)
-            }
-            //
-        } else {
-            // Otherwise present a local notification
+        if UIApplication.sharedApplication().applicationState != .Active {
             let notification = UILocalNotification()
             notification.alertBody = message
             notification.soundName = "Default";

@@ -43,9 +43,7 @@ class LogInViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    
-    
-    
+
     @IBAction func HandleLoginButtonAction(sender: AnyObject) {
         
         guard self.barrackUserName.text != "" && self.barrackPassword.text != "" && self.firefighterNumber.text != "" && self.firefighterPIN.text != "" else {
@@ -56,7 +54,9 @@ class LogInViewController: UIViewController {
         postLoginRequest()
     }
     
-    func loginWasSuccessfulWithKey(key: String)
+    //func loginWasSucessfulWithKey...   andCoordinates
+    
+    func loginWasSuccessfulWithKey(key: Int, Longitude longitude: Double, andLatitude latitude: Double)
     {
         //Saving cache data
         LoginManager.user = User(barrackUserName: self.barrackUserName.text!, barrackPassword: self.barrackPassword.text!, firefighterKey: key, firefighterNumber: self.firefighterNumber.text!, barrackLongitude: 46.3543992882526, barrackLatitude: -72.632473214137)
@@ -102,20 +102,40 @@ class LogInViewController: UIViewController {
             
             guard let _:NSData = data, let _:NSURLResponse = response  where error == nil else {
                 print("error")
-                //TODO: Remove this when WebService will Work
+                
+                
                 return
             }
 
             if let dataString = String(data: data!, encoding: NSUTF8StringEncoding) {
-                if dataString == "0" {
-                    print("Invalid login !!!!!!!!!")
-                    dispatch_async(dispatch_get_main_queue(),{
-                        showSimpleAlertWithTitle(nil, message: "Connection refusée", viewController: self)
-                    })
+                
+                let params = dataString.componentsSeparatedByString(";")
+                
+                if let key = Int(params[0]) {
+                    print(key)
                     
-                } else {
-                    print(dataString)
-                    self.loginWasSuccessfulWithKey(dataString)
+                    guard key != 0 else {
+                        print("Invalid login !!!!!!!!!")
+                        dispatch_async(dispatch_get_main_queue(),{
+                            showSimpleAlertWithTitle(nil, message: "Connection refusée", viewController: self)
+                        })
+                        return
+                    }
+                    
+                    guard params.count >= 3 else {
+                        dispatch_async(dispatch_get_main_queue(),{
+                            showSimpleAlertWithTitle(nil, message: "Erreur: Trop peu de paramètres", viewController: self)
+                        })
+                        return
+                    }
+                    
+                    if let longitude = Double(params[1]), let latitude = Double(params[2]) {
+                        self.loginWasSuccessfulWithKey(key, Longitude: longitude, andLatitude: latitude)
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(),{
+                            showSimpleAlertWithTitle(nil, message: "Erreur: Paramètres invalides", viewController: self)
+                        })
+                    }
                 }
             }
         }

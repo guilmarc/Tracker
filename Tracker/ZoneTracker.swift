@@ -38,7 +38,7 @@ class ZoneTracker: NSObject, CLLocationManagerDelegate {
         locationManager.delegate = self                // Add this line
         locationManager.requestAlwaysAuthorization()   // And this one
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.distanceFilter = 10
+        locationManager.distanceFilter = 1
         locationManager.allowsBackgroundLocationUpdates = true;
     }
     
@@ -50,6 +50,18 @@ class ZoneTracker: NSObject, CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
     }
     
+    func setOnline(){
+        //self.locationManager.requestLocation()
+        locationManager.startUpdatingLocation()
+    }
+    
+    func setOffline(){
+        if self.currentZone != Zone.Unknown {
+            self.currentZone = Zone.Unknown
+            delegate?.zoneTracker(self, didMoveToZone: Zone.Unknown)
+        }
+        locationManager.stopUpdatingLocation()
+    }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         //print(locations.last)
@@ -59,20 +71,20 @@ class ZoneTracker: NSObject, CLLocationManagerDelegate {
         
         print(distance)
         
-        if (distance < 4000) {
+        if (distance < 1000) {
             if self.currentZone != Zone.Zone1 {
                 self.currentZone = Zone.Zone1
                 delegate?.zoneTracker(self, didMoveToZone: Zone.Zone1)
-                return
             }
+            return
         }
         
-        if (distance < 20000) {
+        if (distance < 2000) {
             if self.currentZone != Zone.Zone2 {
                 self.currentZone = Zone.Zone2
                 delegate?.zoneTracker(self, didMoveToZone: Zone.Zone2)
-                return
             }
+            return
         }
         
         if self.currentZone != Zone.Unknown {
@@ -83,6 +95,9 @@ class ZoneTracker: NSObject, CLLocationManagerDelegate {
     }
     
     
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        print(error)
+    }
         
     
     
