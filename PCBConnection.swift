@@ -18,13 +18,15 @@ import CoreLocation
 enum Zone: Int {
     case Zone1 = 1
     case Zone2 = 2
-    case Unknown = 0
+    case Zone0 = 0
+    case Unknown = -1
     
     func description() -> String {
         switch self {
         case Zone1: return "force de frappe"
         case Zone2: return "disponible"
-        default : return "non disponible"
+        case Zone0 : return "non disponible"
+        default : return "inconnu"
         }
     }
 }

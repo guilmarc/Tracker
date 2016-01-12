@@ -33,6 +33,8 @@ class ZoneTracker: NSObject, CLLocationManagerDelegate {
     
     var currentZone = Zone.Unknown
     
+    var targetLocation = CLLocation(latitude: 46.3543992882526, longitude: -72.632473214137)
+    
     override init () {
         super.init()
         locationManager.delegate = self                // Add this line
@@ -41,6 +43,10 @@ class ZoneTracker: NSObject, CLLocationManagerDelegate {
         locationManager.distanceFilter = 1
         locationManager.allowsBackgroundLocationUpdates = true;
     }
+    
+    //func setTargetLocation(location : CLLocation){
+    //    self.targetLocation = location
+    //}
     
     func startTracking(){
         locationManager.startUpdatingLocation()
@@ -56,9 +62,9 @@ class ZoneTracker: NSObject, CLLocationManagerDelegate {
     }
     
     func setOffline(){
-        if self.currentZone != Zone.Unknown {
-            self.currentZone = Zone.Unknown
-            delegate?.zoneTracker(self, didMoveToZone: Zone.Unknown)
+        if self.currentZone != Zone.Zone0 {
+            self.currentZone = Zone.Zone0
+            delegate?.zoneTracker(self, didMoveToZone: Zone.Zone0)
         }
         locationManager.stopUpdatingLocation()
     }
@@ -67,11 +73,11 @@ class ZoneTracker: NSObject, CLLocationManagerDelegate {
         //print(locations.last)
         
         
-        let distance = locations.last!.distanceFromLocation(CLLocation(latitude: 46.3543992882526, longitude: -72.632473214137))
+        let distance = locations.last!.distanceFromLocation(targetLocation)
         
         print(distance)
         
-        if (distance < 1000) {
+        if (distance < 4000) {
             if self.currentZone != Zone.Zone1 {
                 self.currentZone = Zone.Zone1
                 delegate?.zoneTracker(self, didMoveToZone: Zone.Zone1)
@@ -79,7 +85,7 @@ class ZoneTracker: NSObject, CLLocationManagerDelegate {
             return
         }
         
-        if (distance < 2000) {
+        if (distance < 10000) {
             if self.currentZone != Zone.Zone2 {
                 self.currentZone = Zone.Zone2
                 delegate?.zoneTracker(self, didMoveToZone: Zone.Zone2)
@@ -87,9 +93,9 @@ class ZoneTracker: NSObject, CLLocationManagerDelegate {
             return
         }
         
-        if self.currentZone != Zone.Unknown {
-            self.currentZone = Zone.Unknown
-            delegate?.zoneTracker(self, didMoveToZone: Zone.Unknown)
+        if self.currentZone != Zone.Zone0 {
+            self.currentZone = Zone.Zone0
+            delegate?.zoneTracker(self, didMoveToZone: Zone.Zone0)
         }
         
     }

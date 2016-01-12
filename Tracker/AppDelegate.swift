@@ -38,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
         
         //locationManager.startUpdatingLocation()
         //LocationTracker.sharedInstance.startMonitoringRegionsForUser(user)
+        zoneTracker.targetLocation = CLLocation(latitude: user.barrackLatitude, longitude: user.barrackLongitude)
         zoneTracker.startTracking()
     }
     

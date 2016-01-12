@@ -77,7 +77,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate{
     func loginWasSuccessfulWithKey(key: Int, Longitude longitude: Double, andLatitude latitude: Double)
     {
         //Saving cache data
-        LoginManager.user = User(barrackUserName: self.barrackUserName.text!, barrackPassword: self.barrackPassword.text!, firefighterKey: key, firefighterNumber: self.firefighterNumber.text!, barrackLongitude: 46.3543992882526, barrackLatitude: -72.632473214137)
+        LoginManager.user = User(barrackUserName: self.barrackUserName.text!, barrackPassword: self.barrackPassword.text!, firefighterKey: key, firefighterNumber: self.firefighterNumber.text!, barrackLongitude: longitude, barrackLatitude: latitude)
         
         LoginManager.authenticated = true
         
