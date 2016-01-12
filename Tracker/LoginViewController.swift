@@ -25,7 +25,7 @@ protocol LoginViewControllerDelegate : NSObjectProtocol {
 }
 
 
-class LogInViewController: UIViewController {
+class LogInViewController: UIViewController, UITextFieldDelegate{
 
     var delegate: LoginViewControllerDelegate?
     
@@ -45,9 +45,27 @@ class LogInViewController: UIViewController {
     
 
     @IBAction func HandleLoginButtonAction(sender: AnyObject) {
+        self.validateLogin()
+    }
+    
+    func validateLogin(){
+        guard self.barrackUserName.text != "" else {
+            self.barrackUserName.becomeFirstResponder()
+            return
+        }
         
-        guard self.barrackUserName.text != "" && self.barrackPassword.text != "" && self.firefighterNumber.text != "" && self.firefighterPIN.text != "" else {
-            showSimpleAlertWithTitle(nil, message: "Données manquantes", viewController: self)
+        guard self.barrackPassword.text != "" else {
+            self.barrackPassword.becomeFirstResponder()
+            return
+        }
+        
+        guard self.firefighterNumber.text != "" else {
+            self.firefighterNumber.becomeFirstResponder()
+            return
+        }
+        
+        guard self.firefighterPIN.text != "" else {
+            self.firefighterPIN.becomeFirstResponder()
             return
         }
         
@@ -150,6 +168,11 @@ class LogInViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        self.validateLogin()
+        return true;
+    }// called when 'return' key pressed. return NO to ignore.
     
 
     /*
