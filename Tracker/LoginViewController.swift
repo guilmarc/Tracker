@@ -174,13 +174,6 @@ class LogInViewController: UIViewController, UITextFieldDelegate{
         return true;
     }// called when 'return' key pressed. return NO to ignore.
     
-
-    @IBAction func HandleSetDefaultValuesAction(sender: AnyObject) {
-        self.barrackUserName.text = "stcesaire"
-        self.barrackPassword.text = "085085"
-        self.firefighterNumber.text = "122"
-        self.firefighterPIN.text = "0"
-    }
     /*
     // MARK: - Navigation
 
