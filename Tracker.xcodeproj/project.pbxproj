@@ -8,13 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		B5B186D41C34A8EC005A12C0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5B186D21C34A8EC005A12C0 /* Main.storyboard */; };
-		B5B186D61C36FDB9005A12C0 /* LocationTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B186D51C36FDB9005A12C0 /* LocationTracker.swift */; };
 		B5B186D81C386E2F005A12C0 /* PCBConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B186D71C386E2F005A12C0 /* PCBConnection.swift */; };
 		B5B186E01C3F3C63005A12C0 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B186DF1C3F3C63005A12C0 /* LoginManager.swift */; };
 		B5B186E41C3FC8F4005A12C0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B186DD1C3F3996005A12C0 /* LoginViewController.swift */; };
 		B5B186E81C400069005A12C0 /* ZoneTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B186E71C400069005A12C0 /* ZoneTracker.swift */; };
+		B5D06C291C456DD100AAB15C /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D06C281C456DD100AAB15C /* WebViewController.swift */; };
+		B5D06C2B1C457C5100AAB15C /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D06C2A1C457C5100AAB15C /* TabBarController.swift */; };
 		B5FDBF321C335584006F7F56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FDBF311C335584006F7F56 /* AppDelegate.swift */; };
-		B5FDBF341C335584006F7F56 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FDBF331C335584006F7F56 /* ViewController.swift */; };
+		B5FDBF341C335584006F7F56 /* TrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FDBF331C335584006F7F56 /* TrackerViewController.swift */; };
 		B5FDBF391C335584006F7F56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5FDBF381C335584006F7F56 /* Assets.xcassets */; };
 		B5FDBF3C1C335584006F7F56 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5FDBF3A1C335584006F7F56 /* LaunchScreen.storyboard */; };
 		B5FDBF441C335A74006F7F56 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FDBF431C335A74006F7F56 /* Utility.swift */; };
@@ -22,14 +23,15 @@
 
 /* Begin PBXFileReference section */
 		B5B186D31C34A8EC005A12C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		B5B186D51C36FDB9005A12C0 /* LocationTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationTracker.swift; sourceTree = "<group>"; };
 		B5B186D71C386E2F005A12C0 /* PCBConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PCBConnection.swift; path = ../PCBConnection.swift; sourceTree = "<group>"; };
 		B5B186DD1C3F3996005A12C0 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B5B186DF1C3F3C63005A12C0 /* LoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		B5B186E71C400069005A12C0 /* ZoneTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoneTracker.swift; sourceTree = "<group>"; };
+		B5D06C281C456DD100AAB15C /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		B5D06C2A1C457C5100AAB15C /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		B5FDBF2E1C335584006F7F56 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5FDBF311C335584006F7F56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B5FDBF331C335584006F7F56 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B5FDBF331C335584006F7F56 /* TrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerViewController.swift; sourceTree = "<group>"; };
 		B5FDBF381C335584006F7F56 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B5FDBF3B1C335584006F7F56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B5FDBF3D1C335584006F7F56 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -69,12 +71,13 @@
 			children = (
 				B5FDBF311C335584006F7F56 /* AppDelegate.swift */,
 				B5B186D71C386E2F005A12C0 /* PCBConnection.swift */,
-				B5B186D51C36FDB9005A12C0 /* LocationTracker.swift */,
 				B5FDBF431C335A74006F7F56 /* Utility.swift */,
-				B5FDBF331C335584006F7F56 /* ViewController.swift */,
+				B5FDBF331C335584006F7F56 /* TrackerViewController.swift */,
 				B5B186DD1C3F3996005A12C0 /* LoginViewController.swift */,
 				B5B186DF1C3F3C63005A12C0 /* LoginManager.swift */,
 				B5B186E71C400069005A12C0 /* ZoneTracker.swift */,
+				B5D06C281C456DD100AAB15C /* WebViewController.swift */,
+				B5D06C2A1C457C5100AAB15C /* TabBarController.swift */,
 				B5B186D21C34A8EC005A12C0 /* Main.storyboard */,
 				B5FDBF381C335584006F7F56 /* Assets.xcassets */,
 				B5FDBF3A1C335584006F7F56 /* LaunchScreen.storyboard */,
@@ -165,10 +168,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5B186E41C3FC8F4005A12C0 /* LoginViewController.swift in Sources */,
-				B5FDBF341C335584006F7F56 /* ViewController.swift in Sources */,
+				B5D06C291C456DD100AAB15C /* WebViewController.swift in Sources */,
+				B5FDBF341C335584006F7F56 /* TrackerViewController.swift in Sources */,
+				B5D06C2B1C457C5100AAB15C /* TabBarController.swift in Sources */,
 				B5B186E01C3F3C63005A12C0 /* LoginManager.swift in Sources */,
 				B5B186E81C400069005A12C0 /* ZoneTracker.swift in Sources */,
-				B5B186D61C36FDB9005A12C0 /* LocationTracker.swift in Sources */,
 				B5FDBF321C335584006F7F56 /* AppDelegate.swift in Sources */,
 				B5FDBF441C335A74006F7F56 /* Utility.swift in Sources */,
 				B5B186D81C386E2F005A12C0 /* PCBConnection.swift in Sources */,

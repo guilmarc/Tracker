@@ -74,12 +74,10 @@ class LogInViewController: UIViewController, UITextFieldDelegate{
     
     //func loginWasSucessfulWithKey...   andCoordinates
     
-    func loginWasSuccessfulWithKey(key: Int, Longitude longitude: Double, andLatitude latitude: Double)
+    func loginWasSuccessfulWithKey(key: Int, Latitude latitude: Double, andLongitude longitude: Double)
     {
         //Saving cache data
-        LoginManager.user = User(barrackUserName: self.barrackUserName.text!, barrackPassword: self.barrackPassword.text!, firefighterKey: key, firefighterNumber: self.firefighterNumber.text!, barrackLongitude: longitude, barrackLatitude: latitude)
-        
-        LoginManager.authenticated = true
+        LoginManager.user = User(barrackUserName: self.barrackUserName.text!, barrackPassword: self.barrackPassword.text!, firefighterKey: key, firefighterNumber: self.firefighterNumber.text!, barrackLatitude: latitude, barrackLongitude: longitude )
         
         //Fire the appropriate delegate event
         delegate?.LoginViewController(self, didLoginWithUser: LoginManager.user!)
@@ -105,8 +103,6 @@ class LogInViewController: UIViewController, UITextFieldDelegate{
         let paramString = "in_Cas_UserName=\(self.barrackUserName.text!)&in_Cas_Password=\(self.barrackPassword.text!)&in_NoPompier=\(self.firefighterNumber.text!)&in_NipPompier=\(self.firefighterPIN.text!)"
         
         request.HTTPBody = paramString.dataUsingEncoding(NSUTF8StringEncoding)
-        
-        //print("\(request)\n\n\n")
         
         return request
     }
@@ -148,7 +144,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate{
                     }
                     
                     if let longitude = Double(params[1]), let latitude = Double(params[2]) {
-                        self.loginWasSuccessfulWithKey(key, Longitude: longitude, andLatitude: latitude)
+                        self.loginWasSuccessfulWithKey(key, Latitude: latitude, andLongitude: longitude)
                     } else {
                         dispatch_async(dispatch_get_main_queue(),{
                             showSimpleAlertWithTitle(nil, message: "Erreur: Paramètres invalides", viewController: self)

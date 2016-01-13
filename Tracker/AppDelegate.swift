@@ -13,33 +13,30 @@ import CoreLocation
 class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelegate, ZoneTrackerDelegate {
 
     var window: UIWindow?
-    let locationManager = CLLocationManager()
     let connection = PCBConnection()
     let zoneTracker = ZoneTracker()
-    
-    var zone : Zone = Zone.Unknown
+    var trackerViewController : TrackerViewController?
+
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //Register the application for future notifications
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound , .Alert , .Badge], categories: nil))
         UIApplication.sharedApplication().cancelAllLocalNotifications()
         
+        //Assigning trackerViewController for future use
+        self.trackerViewController = (window?.rootViewController as? UITabBarController)?.viewControllers!.first as? TrackerViewController
+    
+        //Set self as delegate of ZoneTracker
         zoneTracker.delegate = self
         
-        if (!LoginManager.authenticated) {
+        //Will not use local login information in this version
+        //if (!LoginManager.authenticated) {
             self.showLoginScreen()
-        }
+        //}
         
         return true
-    }
-
-    
-    func LoginViewController(viewController: UIViewController, didLoginWithUser user: User) {
-        
-        //locationManager.startUpdatingLocation()
-        //LocationTracker.sharedInstance.startMonitoringRegionsForUser(user)
-        zoneTracker.targetLocation = CLLocation(latitude: user.barrackLatitude, longitude: user.barrackLongitude)
-        zoneTracker.startTracking()
     }
     
     func showLoginScreen(){
@@ -50,52 +47,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
         loginViewController.delegate = self
         
         self.window?.makeKeyAndVisible()
-        self.window?.rootViewController?.presentViewController(loginViewController, animated: true, completion: nil)
+        self.window?.rootViewController?.presentViewController(loginViewController, animated: false, completion: nil)
 
     }
 
     
+    //This fonction if not used.  Logout must be done by killing the app
     func logout(){
-
         zoneTracker.stopTracking()
         self.showLoginScreen()
-
-    }
-
-    func applicationWillResignActive(application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    }
-
-    func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
-
-    func applicationWillEnterForeground(application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    }
-
-    func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        //locationManager.stopUpdatingLocation()
-        //locationManager.startUpdatingLocation()
-    }
-
-    func applicationWillTerminate(application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
+    //MARK: LoginViewControllerDelegate
+    
+    func LoginViewController(viewController: UIViewController, didLoginWithUser user: User) {
+        
+        //locationManager.startUpdatingLocation()
+        //LocationTracker.sharedInstance.startMonitoringRegionsForUser(user)
+        //zoneTracker.targetLocation = CLLocation(latitude: user.barrackLatitude, longitude: user.barrackLongitude)
+        
+        print("LOGIN Latitude = \(user.barrackLatitude)")
+        print("LOGIN Longitude = \(user.barrackLongitude)")
+        
+        zoneTracker.targetLocation = CLLocation(latitude: user.barrackLatitude, longitude: user.barrackLongitude)
+        //zoneTracker.targetLocation = CLLocation(latitude: 46.171607, longitude: -71.8778427)
+        
+        print("AFTER Latitude = \(zoneTracker.targetLocation.coordinate.latitude)")
+        print("AFTER Longitude = \(zoneTracker.targetLocation.coordinate.longitude)")
+        
+        zoneTracker.startTracking()
+    }
+
+    // MARK: ZoneTrackerDelegate
     
     func zoneTracker(zoneTracker: ZoneTracker, didMoveToZone zone: Zone){
+        
+        //Development purpose only
         print(zone)
         
         let message = "Vous êtes maintenant dans l'état \(zone.description)"
         
-        //Updating the viewController color
-        if let viewController = (window?.rootViewController as? UINavigationController)?.viewControllers.first as? ViewController  {
-            viewController.setZone(zone)
-        }
+        trackerViewController?.setZone(zone)
         
         // if application is active
         if UIApplication.sharedApplication().applicationState != .Active {

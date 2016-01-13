@@ -76,6 +76,9 @@ class ZoneTracker: NSObject, CLLocationManagerDelegate {
         let distance = locations.last!.distanceFromLocation(targetLocation)
         
         print(distance)
+        //print("Latitude = \(targetLocation.coordinate.latitude)")
+        //print("Longitude = \(targetLocation.coordinate.longitude)")
+        
         
         if (distance < 4000) {
             if self.currentZone != Zone.Zone1 {

@@ -14,38 +14,14 @@ struct User {
     var barrackPassword: String
     var firefighterKey: Int
     var firefighterNumber: String
-    var barrackLongitude: Double
     var barrackLatitude: Double
+    var barrackLongitude: Double
+    
     //var available: Bool
 }
 
 class LoginManager {
     
     static var user : User?
-    static var authenticated = false
-    
-    private var loginViewController: LogInViewController?
-    
-    
-    func loginWithUsername(username: String, password: String, number: String, PIN : String){
-        
-    }
-    
-    /*func getUser() -> User? {
-        if () {
-            
-        }
-        
-        let storyboard = UIStoryboard(name: "MyStoryboardName", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("someViewController") as! UIViewController
-        self.presentViewController(vc, animated: true, completion: nil)
-        
-        
-        
-        return nil
-    }*/
-    
-    
-    
-    
+
 }

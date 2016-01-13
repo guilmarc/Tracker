@@ -17,7 +17,7 @@ import CoreLocation
 
 //GRANBY CLLocationCoordinate2D(latitude: 45.3985158487314, longitude: -72.7236514495825)
 
-class ViewController: UIViewController, CLLocationManagerDelegate {
+class TrackerViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet var AvailableSegmentedControl: UISegmentedControl!
 
