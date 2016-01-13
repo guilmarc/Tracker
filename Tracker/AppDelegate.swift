@@ -66,14 +66,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
         //LocationTracker.sharedInstance.startMonitoringRegionsForUser(user)
         //zoneTracker.targetLocation = CLLocation(latitude: user.barrackLatitude, longitude: user.barrackLongitude)
         
-        print("LOGIN Latitude = \(user.barrackLatitude)")
-        print("LOGIN Longitude = \(user.barrackLongitude)")
+        //print("LOGIN Latitude = \(user.barrackLatitude)")
+        //print("LOGIN Longitude = \(user.barrackLongitude)")
         
         zoneTracker.targetLocation = CLLocation(latitude: user.barrackLatitude, longitude: user.barrackLongitude)
         //zoneTracker.targetLocation = CLLocation(latitude: 46.171607, longitude: -71.8778427)
         
-        print("AFTER Latitude = \(zoneTracker.targetLocation.coordinate.latitude)")
-        print("AFTER Longitude = \(zoneTracker.targetLocation.coordinate.longitude)")
+        //print("AFTER Latitude = \(zoneTracker.targetLocation.coordinate.latitude)")
+        //print("AFTER Longitude = \(zoneTracker.targetLocation.coordinate.longitude)")
         
         zoneTracker.startTracking()
     }
@@ -85,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
         //Development purpose only
         print(zone)
         
-        let message = "Vous êtes maintenant dans l'état \(zone.description)"
+        let message = "Vous êtes maintenant dans l'état \(zone.description())"
         
         trackerViewController?.setZone(zone)
         

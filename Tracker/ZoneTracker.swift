@@ -75,7 +75,7 @@ class ZoneTracker: NSObject, CLLocationManagerDelegate {
         
         let distance = locations.last!.distanceFromLocation(targetLocation)
         
-        print(distance)
+        //print(distance)
         //print("Latitude = \(targetLocation.coordinate.latitude)")
         //print("Longitude = \(targetLocation.coordinate.longitude)")
         

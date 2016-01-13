@@ -92,7 +92,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate{
     //in_NoPompier = Le numéro du pompier (valeur numérique (int))
     //in_NipPompier = Le NIP du pompier (valeur numérique (int))
     func buildRequest() -> NSMutableURLRequest {
-        let url:NSURL = NSURL(string: "http://www.vinitysoft.com/tmp_test/auth_check_post.php")!
+        let url:NSURL = NSURL(string: "http://www.vinitysoft.com/pcb/tracker/auth_check_post.php")!
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
         request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringCacheData

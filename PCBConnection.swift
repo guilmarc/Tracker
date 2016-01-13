@@ -29,7 +29,7 @@ class PCBConnection {
 
     func postRequestForZone(zone: Zone, User user: User)  {
         
-        let url:NSURL = NSURL(string: "http://www.vinitysoft.com/tmp_test/upd_status.php")!
+        let url:NSURL = NSURL(string: "http://www.vinitysoft.com/pcb/tracker/upd_status.php")!
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
         request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringCacheData
@@ -45,8 +45,8 @@ class PCBConnection {
                 return
             }
             
-            let dataString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-            print(dataString)
+            //let dataString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+            //print(dataString)
         }
         
         task.resume()
