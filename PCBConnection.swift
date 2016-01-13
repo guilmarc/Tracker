@@ -9,12 +9,6 @@
 import Foundation
 import CoreLocation
 
-/*enum Zone: Int {
-    case Zone1 = 0x00FF00
-    case Zone2 = 0x0000FF
-    case Unknown = 0xFF0000
-}*/
-
 enum Zone: Int {
     case Zone1 = 1
     case Zone2 = 2
