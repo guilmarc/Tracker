@@ -346,6 +346,8 @@
                     <connections>
                         <outlet property="barrackPassword" destination="eZM-Qs-3js" id="VgX-4L-8LZ"/>
                         <outlet property="barrackUserName" destination="AK9-tR-HQJ" id="yYg-Zk-e2s"/>
+                        <outlet property="connectionLabel" destination="M0D-QB-lBo" id="j0N-mL-WxY"/>
+                        <outlet property="connectionTopConstraint" destination="OFT-U6-bLW" id="mkp-Ui-oQj"/>
                         <outlet property="firefighterNumber" destination="3Dn-rO-KnT" id="1OM-EO-a3Q"/>
                         <outlet property="firefighterPIN" destination="U4p-9N-q0r" id="OWy-UF-fCr"/>
                     </connections>

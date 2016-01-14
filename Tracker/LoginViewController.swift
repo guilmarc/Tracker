@@ -25,7 +25,7 @@ protocol LoginViewControllerDelegate : NSObjectProtocol {
 }
 
 
-class LogInViewController: UIViewController, UITextFieldDelegate{
+class LogInViewController: UIViewController, UITextFieldDelegate {
 
     var delegate: LoginViewControllerDelegate?
     
@@ -37,10 +37,27 @@ class LogInViewController: UIViewController, UITextFieldDelegate{
     
     @IBOutlet var firefighterPIN: UITextField!
     
+    @IBOutlet var connectionLabel: UILabel!
+    
+    @IBOutlet var connectionTopConstraint: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:"keyboardWillAppear:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:"keyboardWillDisappear:", name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    func keyboardWillAppear(notification: NSNotification){
+        // If this is an iPhone 4
+        if UIScreen.mainScreen().nativeBounds.height < 1136 {
+            self.connectionTopConstraint.constant = -30
+        }
+    }
+    
+    func keyboardWillDisappear(notification: NSNotification){
+        self.connectionTopConstraint.constant = 23
     }
     
 
