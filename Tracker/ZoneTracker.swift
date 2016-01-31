@@ -48,6 +48,11 @@ class ZoneTracker: NSObject, CLLocationManagerDelegate {
     //    self.targetLocation = location
     //}
     
+    func startTrackingForUser(user: User){
+        self.targetLocation = CLLocation(latitude: user.barrackLatitude, longitude: user.barrackLongitude)
+        locationManager.startUpdatingLocation()
+    }
+    
     func startTracking(){
         locationManager.startUpdatingLocation()
     }
@@ -75,12 +80,14 @@ class ZoneTracker: NSObject, CLLocationManagerDelegate {
         
         let distance = locations.last!.distanceFromLocation(targetLocation)
         
+        //print(targetLocation)
+        
         //print(distance)
         //print("Latitude = \(targetLocation.coordinate.latitude)")
         //print("Longitude = \(targetLocation.coordinate.longitude)")
         
         
-        if (distance < 4000) {
+        if (distance < 3000) {
             if self.currentZone != Zone.Zone1 {
                 self.currentZone = Zone.Zone1
                 delegate?.zoneTracker(self, didMoveToZone: Zone.Zone1)
@@ -88,7 +95,7 @@ class ZoneTracker: NSObject, CLLocationManagerDelegate {
             return
         }
         
-        if (distance < 10000) {
+        if (distance < 11000) {
             if self.currentZone != Zone.Zone2 {
                 self.currentZone = Zone.Zone2
                 delegate?.zoneTracker(self, didMoveToZone: Zone.Zone2)

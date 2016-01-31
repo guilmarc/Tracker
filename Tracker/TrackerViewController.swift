@@ -31,7 +31,7 @@ class TrackerViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.navigationController?.navigationBarHidden = true
+        //self.navigationController?.navigationBarHidden = true
     }
     
     override func viewDidAppear(animated: Bool) {

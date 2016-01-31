@@ -26,18 +26,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
         UIApplication.sharedApplication().cancelAllLocalNotifications()
         
         //Assigning trackerViewController for future use
-        self.trackerViewController = (window?.rootViewController as? UITabBarController)?.viewControllers!.first as? TrackerViewController
+        self.trackerViewController = (window?.rootViewController as? UINavigationController)?.viewControllers.first as? TrackerViewController
     
         //Set self as delegate of ZoneTracker
         zoneTracker.delegate = self
         
-        //Will not use local login information in this version
-        //if (!LoginManager.authenticated) {
+        if let _ = LoginManager.getUserFromCache()?.logged {
+            zoneTracker.startTrackingForUser(LoginManager.user!)
+        } else {
             self.showLoginScreen()
-        //}
+        }
         
         return true
     }
+    
     
     func showLoginScreen(){
         // Get login screen from storyboard and present it
