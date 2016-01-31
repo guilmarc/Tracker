@@ -51,6 +51,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
             self.barrackPassword.text = user.barrackPassword
             self.firefighterNumber.text = user.firefighterNumber
             //self.firefighterPIN.text = String(user.firefighterKey)
+        
         }
         
         

@@ -32,6 +32,8 @@ class TrackerViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         //self.navigationController?.navigationBarHidden = true
+        //Try to load user from cache and assign valut to testfields
+
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -40,26 +42,20 @@ class TrackerViewController: UIViewController, CLLocationManagerDelegate {
         //TODO: Force the zone refresh here
         //let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         //appDelegate.zoneTracker.setOnline()
+        if let user = LoginManager.user {
+            self.AvailableSegmentedControl.selectedSegmentIndex = user.userStatus.rawValue
+            
+            //self.setZone(.Zone0)
+            //self.firefighterPIN.text = String(user.firefighterKey)
+            
+            //Patch
+            self.HandleAvailableSegmentedControlValueChanged(UISegmentedControl())
+        }
     }
     
     func setZone(zone : Zone){
         
         self.zone = zone
-        
-        
-        /*switch self.zone {
-            case .Zone1 : self.view.backgroundColor = UIColor(netHex: 0x00FF00)
-            case .Zone2: self.view.backgroundColor = UIColor(netHex: 0x0000FF)
-            case .Zone0: self.view.backgroundColor = UIColor(netHex: 0xFF0000)
-            case .Unknown: self.view.backgroundColor = UIColor(netHex: 0xFFFFF)
-        }
-        
-        switch self.zone {
-        case .Zone1 : self.AvailableSegmentedControl.tintColor = UIColor(netHex: 0x00FF00)
-        case .Zone2: self.AvailableSegmentedControl.tintColor = UIColor(netHex: 0x0000FF)
-        case .Zone0: self.AvailableSegmentedControl.tintColor = UIColor(netHex: 0xFF0000)
-        case .Unknown: self.AvailableSegmentedControl.tintColor = UIColor(netHex: 0xFFFFF)
-        }*/
         
         switch self.zone {
             case .Zone1 : self.LocationImageView.image = UIImage(named: "location-green")
@@ -83,6 +79,9 @@ class TrackerViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     @IBAction func HandleAvailableSegmentedControlValueChanged(sender: AnyObject) {
+        
+        //Saving value to the user class
+        LoginManager.user!.userStatus = UserStatus(rawValue:self.AvailableSegmentedControl.selectedSegmentIndex)!
         
         if self.AvailableSegmentedControl.selectedSegmentIndex == 0 {
             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate

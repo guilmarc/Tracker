@@ -31,11 +31,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
         //Set self as delegate of ZoneTracker
         zoneTracker.delegate = self
         
-        if let _ = LoginManager.getUserFromCache()?.logged {
-            zoneTracker.startTrackingForUser(LoginManager.user!)
+        
+        if let user = LoginManager.getUserFromCache() {
+            if user.logged {
+                if user.userStatus == .Online {
+                    zoneTracker.startTrackingForUser(user)
+                }
+            } else {
+                self.showLoginScreen()
+            }
         } else {
             self.showLoginScreen()
         }
+    
         
         return true
     }
@@ -56,28 +64,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
     
     //This fonction if not used.  Logout must be done by killing the app
     func logout(){
+        LoginManager.user?.logged = false
+        LoginManager.user?.userStatus = .Online
+        LoginManager.saveUser()
         zoneTracker.stopTracking()
         self.showLoginScreen()
     }
     
+    func applicationDidEnterBackground(application: UIApplication) {
+        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        LoginManager.saveUser()
+    }
+    
+    
     //MARK: LoginViewControllerDelegate
     
     func LoginViewController(viewController: UIViewController, didLoginWithUser user: User) {
-        
-        //locationManager.startUpdatingLocation()
-        //LocationTracker.sharedInstance.startMonitoringRegionsForUser(user)
-        //zoneTracker.targetLocation = CLLocation(latitude: user.barrackLatitude, longitude: user.barrackLongitude)
-        
-        //print("LOGIN Latitude = \(user.barrackLatitude)")
-        //print("LOGIN Longitude = \(user.barrackLongitude)")
-        
-        zoneTracker.targetLocation = CLLocation(latitude: user.barrackLatitude, longitude: user.barrackLongitude)
-        //zoneTracker.targetLocation = CLLocation(latitude: 46.171607, longitude: -71.8778427)
-        
-        //print("AFTER Latitude = \(zoneTracker.targetLocation.coordinate.latitude)")
-        //print("AFTER Longitude = \(zoneTracker.targetLocation.coordinate.longitude)")
-        
-        zoneTracker.startTracking()
+        zoneTracker.startTrackingForUser(user)
     }
 
     // MARK: ZoneTrackerDelegate
