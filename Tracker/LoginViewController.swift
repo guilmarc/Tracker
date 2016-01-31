@@ -45,6 +45,15 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
 
         // Do any additional setup after loading the view.
         
+        //Try to load user from cache and assign valut to testfields
+        if let user = LoginManager.getUserFromCache() {
+            self.barrackUserName.text =  user.barrackUserName
+            self.barrackPassword.text = user.barrackPassword
+            self.firefighterNumber.text = user.firefighterNumber
+            //self.firefighterPIN.text = String(user.firefighterKey)
+        }
+        
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"keyboardWillAppear:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"keyboardWillDisappear:", name: UIKeyboardWillHideNotification, object: nil)
     }
@@ -89,12 +98,12 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         postLoginRequest()
     }
     
-    //func loginWasSucessfulWithKey...   andCoordinates
     
     func loginWasSuccessfulWithKey(key: Int, Latitude latitude: Double, andLongitude longitude: Double)
     {
         //Saving cache data
-        LoginManager.user = User(barrackUserName: self.barrackUserName.text!, barrackPassword: self.barrackPassword.text!, firefighterKey: key, firefighterNumber: self.firefighterNumber.text!, barrackLatitude: latitude, barrackLongitude: longitude )
+        LoginManager.setUser(self.barrackUserName.text!, barrackPassword: self.barrackPassword.text!, firefighterKey: key, firefighterNumber: self.firefighterNumber.text!, barrackLatitude: latitude, barrackLongitude: longitude , logged: true)
+        
         
         //Fire the appropriate delegate event
         delegate?.LoginViewController(self, didLoginWithUser: LoginManager.user!)
