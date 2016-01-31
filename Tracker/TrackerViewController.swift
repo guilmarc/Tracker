@@ -71,10 +71,18 @@ class TrackerViewController: UIViewController, CLLocationManagerDelegate {
     
     
     @IBAction func HandleLogoutButtonAction(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+       
+        let alert =  UIAlertController(title: "Déconnexion", message: "Voulez-vous vraiment vous déconnecter de Tracker ?", preferredStyle: UIAlertControllerStyle.Alert)
         
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        appDelegate.logout()
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        
+        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { action in
+            self.dismissViewControllerAnimated(true, completion: nil)
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            appDelegate.logout()
+        }))
+        
+       self.presentViewController(alert, animated: true, completion: nil)
 
     }
 
